@@ -11,8 +11,9 @@ const {
 /* *** Modulos internos *** */
 
 const {
-    getUsuarios,
-    createUsuario,
+    getUsers,
+    createUser,
+    loginUser
 } = require("../controllers/user.controllers");
 
 const {
@@ -20,13 +21,14 @@ const {
 } = require("../middlewares/validar-campos");
 
 const {
-    emailExists
+    emailExists,
+    isValidRole
 } = require("../helpers/db-validator");
+const { validateJWT } = require("../middlewares/validar-jwt");
 
 const router = Router();
 
-// Express validator para validar campos antes de enviarlos (middlewares)
-router.get('/', getUsuarios);
+router.get('/', getUsers);
 
 router.post('/', [
     check('nombre', 'El nombre no es valido').not().isEmpty(),
@@ -35,8 +37,15 @@ router.post('/', [
     }),
     check('correo', 'El correo no es valido').isEmail(),
     check('correo').custom(emailExists),
+    check('role').custom(isValidRole),
     validarCampos
-], createUsuario);
+], createUser);
+
+router.post('/login', [
+    check('correo', 'El correo no es valido').not().isEmpty(),
+    check('password', 'El password debe de ser da mas de 6 caracteres').not().isEmpty(),
+    validarCampos
+], loginUser);
 
 
 module.exports = router;
