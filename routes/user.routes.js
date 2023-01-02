@@ -20,7 +20,8 @@ const {
 } = require("../middlewares/validar-campos");
 
 const {
-    emailExists
+    emailExists,
+    isValidRole
 } = require("../helpers/db-validator");
 
 const router = Router();
@@ -35,6 +36,7 @@ router.post('/', [
     }),
     check('correo', 'El correo no es valido').isEmail(),
     check('correo').custom(emailExists),
+    check('role').custom(isValidRole),
     validarCampos
 ], createUsuario);
 

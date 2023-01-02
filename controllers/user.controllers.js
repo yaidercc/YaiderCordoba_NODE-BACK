@@ -43,14 +43,16 @@ const createUsuario = async (req = request, res = response) => {
     const {
         nombre,
         correo,
-        password
+        password,
+        role
     } = req.body;
 
     // Se crea una instancia del registro que se va a agregar
     const usuario = new Usuario({
         nombre,
         correo,
-        password
+        password,
+        role
     });
 
     // Encriptar la contraseña 

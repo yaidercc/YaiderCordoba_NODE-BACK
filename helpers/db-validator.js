@@ -1,5 +1,19 @@
 const Usuario = require("../models/user.model");
 const Producto = require("../models/product.model");
+const Role = require("../models/role.model");
+
+/**
+ * Funcion para validar el rol ingresado
+ * @param {*} role 
+ */
+const isValidRole = async (role = '') => {
+
+    const existsRole = await Role.findOne({
+        role
+    });
+    console.log(existsRole ?"encontrado" : "no encotnrado");
+    if (!existsRole) throw new Error(`El rol ${role} no existe en la base de datos.`)
+}
 
 /**
  * Funcion para validar si el email ingresado existe
@@ -33,5 +47,6 @@ const validateImage = async (name='') => {
 module.exports = {
     emailExists,
     existsProductById,
-    validateImage
+    validateImage,
+    isValidRole
 }

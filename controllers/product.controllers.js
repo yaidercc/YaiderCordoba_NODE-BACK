@@ -41,7 +41,7 @@ const getProduct = async (req = request, res = response) => {
     } = req.params;
 
     // Borrar registro fisicamente
-    const producto = await Producto.findById(id);
+    const producto=await Producto.findById(id);
 
     res.json({
         producto
@@ -60,15 +60,13 @@ const createProduct = async (req = request, res = response) => {
         nombre,
         imagen,
         precio,
-        calificacion,
-        propietario
+        calificacion,propietario
     } = req.body;
 
     const producto = new Producto({
         nombre,
         imagen,
         precio,
-        calificacion,
         calificacion,
         propietario
 
@@ -97,7 +95,7 @@ const deleteProduct = async (req = request, res = response) => {
     await Producto.findByIdAndDelete(id);
 
     res.json({
-        msg: "Producto eliminado"
+        msg:"Producto eliminado"
     });
 }
 
@@ -112,6 +110,7 @@ const updateProduct = async (req = request, res = response) => {
     // Se saca el _id de los datos a actualizar para prevenir que este se actualice
     const {
         _id,
+        propietario,
         ...resto
     } = req.body;
 
