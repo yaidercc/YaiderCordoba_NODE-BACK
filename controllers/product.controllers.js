@@ -74,23 +74,14 @@ const updateProduct = async (req = request, res = response) => {
     const id = req.params.id;
     const {
         _id,
-        password,
-        google,
         ...resto
     } = req.body;
 
-    // TODO validar contra la base de datos
-    if (password) {
-        // Encriptar la contraseña 
-        const salt = bycryptjs.genSaltSync();
-        resto.password = bycryptjs.hashSync(password, salt);
-    }
-
-    const usuario = await Usuario.findByIdAndUpdate(id, resto);
+    const producto = await Producto.findByIdAndUpdate(id, resto);
     res.status(403).json({
         ok: true,
-        msg: "Usuario actualizado con exito.",
-        usuario
+        msg: "Producto actualizado con exito.",
+        producto
     });
 }
 
