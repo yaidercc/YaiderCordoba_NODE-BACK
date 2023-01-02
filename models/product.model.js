@@ -22,7 +22,7 @@ const ProductoSchema = Schema({
         type: String
     },
     propietario: {
-        type: mongoose.Schema.Types.ObjectId,
+        type:Schema.ObjectId,
         ref: "Usuario",
     },
 

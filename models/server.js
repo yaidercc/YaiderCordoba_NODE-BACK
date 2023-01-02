@@ -38,7 +38,7 @@ class Server {
     routes() {
         // Cuando se haga una peticion a la url /api/usuarios va a llamar a las rutas del usuario
         this.app.use(this.usuariosPath, require("../routes/user.routes.js"))
-        // this.app.use(this.productosPath,require("../routes/user.routes.js"))
+        this.app.use(this.productosPath,require("../routes/products.routes.js"))
     }
 
     listen() {
