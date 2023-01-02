@@ -12,7 +12,6 @@ const ProductoSchema = Schema({
     imagen: {
         type: String,
         required: [true, 'La imagen es obligatoria'],
-        unique: true
     },
     precio: {
         type: String,

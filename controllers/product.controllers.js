@@ -31,7 +31,7 @@ const getProducts = async (req = request, res = response) => {
 }
 
 /**
- * Funcion para obtener todos los productos
+ * Funcion para obtener un solo producto
  * @param {*} req 
  * @param {*} res 
  */
