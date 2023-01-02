@@ -5,7 +5,8 @@ const {
     getProducts,
     createProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    getProduct
 } = require("../controllers/product.controllers");
 const {
     check
@@ -22,7 +23,8 @@ const {
 const router = Router();
 
 // Express validator para validar campos antes de enviarlos (middlewares)
-// router.get('/', getProducts);
+router.get('/', getProducts);
+router.get('/:id', getProduct);
 
 router.put('/:id', [
     check('id', 'No es un ID valido').isMongoId(),
@@ -38,11 +40,11 @@ router.post('/', [
     validarCampos
 ], createProduct);
 
-// router.delete('/:id', [
-//     check('id', 'No es un ID valido').isMongoId(),
-//     check('id').custom(existsUserById),
-//     validarCampos
-// ], deleteUsuarios);
+router.delete('/:id', [
+    check('id', 'No es un ID valido').isMongoId(),
+    check('id').custom(existsProductById),
+    validarCampos
+], deleteProduct);
 
 // router.patch('/', patchUsuarios);
 
