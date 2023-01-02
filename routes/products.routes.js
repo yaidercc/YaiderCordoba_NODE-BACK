@@ -6,7 +6,8 @@ const {
     createProduct,
     deleteProduct,
     updateProduct,
-    getProduct
+    getProduct,
+    getProductsByUser
 } = require("../controllers/product.controllers");
 const {
     check
@@ -20,6 +21,9 @@ const {
     existsProductById,
     validateImage
 } = require("../helpers/db-validator");
+const {
+    validateJWT
+} = require("../middlewares/validar-jwt");
 
 const router = Router();
 
@@ -39,9 +43,9 @@ router.post('/', [
     check('imagen', 'La imagen es incorrecta').not().isEmpty(),
     check('imagen').custom(validateImage),
     check('precio', 'El precio no es valido').not().isEmpty(),
-    check('calificacion','El precio no es valido').not().isEmpty(),
-    check('propietario','El propietario es obligatorio').not().isEmpty(),
-    check('propietario','El propietario es invalido').isMongoId(),
+    check('calificacion', 'El precio no es valido').not().isEmpty(),
+    check('propietario', 'El propietario es obligatorio').not().isEmpty(),
+    check('propietario', 'El propietario es invalido').isMongoId(),
     validarCampos
 ], createProduct);
 
@@ -51,6 +55,8 @@ router.delete('/:id', [
     validarCampos
 ], deleteProduct);
 
+router.get("/getProducts/:id",
+    check('id', 'No es un ID valido').isMongoId(),getProductsByUser)
 // router.patch('/', patchUsuarios);
 
 module.exports = router;

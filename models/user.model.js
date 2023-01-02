@@ -17,15 +17,7 @@ const UsuarioSchema = Schema({
     password: {
         type: String,
         required: [true, 'La contraseña es obligatoria']
-<<<<<<< HEAD
     }
-=======
-    },
-    role: {
-        type: String,
-        required: true
-    },
->>>>>>> wip_yaider
 
 });
 

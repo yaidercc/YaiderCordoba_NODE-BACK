@@ -47,6 +47,24 @@ const getProduct = async (req = request, res = response) => {
         producto
     });
 }
+/**
+ * Funcion para obtener un solo producto
+ * @param {*} req 
+ * @param {*} res 
+ */
+const getProductsByUser = async (req = request, res = response) => {
+    const {
+        id
+    } = req.params;
+
+    // Borrar registro fisicamente
+    const producto=await Producto.find({propietario:id});
+
+    res.json({
+        producto,
+        id
+    });
+}
 
 
 /**
@@ -130,5 +148,6 @@ module.exports = {
     createProduct,
     deleteProduct,
     updateProduct,
-    getProduct
+    getProduct,
+    getProductsByUser
 }

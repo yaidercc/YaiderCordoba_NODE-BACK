@@ -27,7 +27,7 @@ const getUsers = async (req = request, res = response) => {
         })
     ]);
 
-    res.status(403).json({
+    res.json({
         usuarios,
         total
     });
@@ -61,7 +61,7 @@ const createUser = async (req = request, res = response) => {
 
     // Se guarda ese usuario en la base de datos
     await usuario.save();
-    res.status(403).json({
+    res.json({
         ok: true,
         msg: "Usuario agregado con exito.",
         usuario
@@ -99,6 +99,7 @@ const loginUser = async (req = request, res = response) => {
             msg: "correo y/o clave incorrectos.",
         });
     }
+    const id = usuario._id;
     const token = await generateJWT(correo, usuario._id);
 
     res.json({
@@ -112,9 +113,34 @@ const loginUser = async (req = request, res = response) => {
     });
 }
 
+/**
+ * Valida la vigencia del token generado
+ * @param {*} req
+ * @param {*} res
+ */
+const validateToken = async (req, res) => {
+    const {
+        correo,
+        id_user
+    } = req;
+
+    // Generara nuevo token
+    const token = await generateJWT(correo, id_user);
+
+    return res.json({
+        ok: true,
+        token,
+        usuario: {
+            correo,
+            id: id_user
+        }
+    });
+};
+
 
 module.exports = {
     getUsers,
     createUser,
-    loginUser
+    loginUser,
+    validateToken
 }

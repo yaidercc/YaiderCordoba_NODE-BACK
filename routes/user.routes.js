@@ -13,7 +13,8 @@ const {
 const {
     getUsers,
     createUser,
-    loginUser
+    loginUser,
+    validateToken
 } = require("../controllers/user.controllers");
 
 const {
@@ -22,7 +23,6 @@ const {
 
 const {
     emailExists,
-    isValidRole
 } = require("../helpers/db-validator");
 const { validateJWT } = require("../middlewares/validar-jwt");
 
@@ -37,7 +37,6 @@ router.post('/', [
     }),
     check('correo', 'El correo no es valido').isEmail(),
     check('correo').custom(emailExists),
-    check('role').custom(isValidRole),
     validarCampos
 ], createUser);
 
@@ -47,5 +46,8 @@ router.post('/login', [
     validarCampos
 ], loginUser);
 
+
+
+router.get("/renew",validateJWT,validateToken)
 
 module.exports = router;

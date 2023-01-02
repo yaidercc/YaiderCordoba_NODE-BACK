@@ -15,10 +15,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-validator": "^6.14.2",
-<<<<<<< HEAD
-=======
     "jsonwebtoken": "^9.0.0",
->>>>>>> wip_yaider
     "mongoose": "^6.8.2",
     "nodemon": "^2.0.20"
   }
