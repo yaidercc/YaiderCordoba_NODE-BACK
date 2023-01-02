@@ -2,7 +2,7 @@ const {
     Schema,
     model
 } = require("mongoose");
-
+var Usuario = model('Usuario');
 
 const ProductoSchema = Schema({
     nombre: {
@@ -23,14 +23,15 @@ const ProductoSchema = Schema({
     propietario: {
         type:Schema.ObjectId,
         ref: "Usuario",
+        required: [true, 'El propietario es obligatorio']
     },
 
 });
 
 // Se modifica el metodo que devuelve los datos de la bd con el fin de que no devuelva datos innecesarios
 ProductoSchema.methods.toJSON = function () {
-    const {__v,...user} = this.toObject();
-    return user;
+    const {__v,...producto} = this.toObject();
+    return producto;
 }
 
 // Se exporta el modelo de la tabla basado en el esquema anterior 

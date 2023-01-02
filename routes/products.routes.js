@@ -40,6 +40,8 @@ router.post('/', [
     check('imagen').custom(validateImage),
     check('precio', 'El precio no es valido').not().isEmpty(),
     check('calificacion','El precio no es valido').not().isEmpty(),
+    check('propietario','El propietario es obligatorio').not().isEmpty(),
+    check('propietario','El propietario es invalido').isMongoId(),
     validarCampos
 ], createProduct);
 
