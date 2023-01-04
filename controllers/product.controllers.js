@@ -66,7 +66,6 @@ const getProductsByUser = async (req = request, res = response) => {
     });
 }
 
-
 /**
  * Funcion para crear un producto
  * @param {*} req 
@@ -78,14 +77,14 @@ const createProduct = async (req = request, res = response) => {
         nombre,
         imagen,
         precio,
-        calificacion,propietario
+        propietario
     } = req.body;
 
     const producto = new Producto({
         nombre,
         imagen,
         precio,
-        calificacion,
+        calificacion:'0',
         propietario
 
     });
@@ -113,6 +112,7 @@ const deleteProduct = async (req = request, res = response) => {
     await Producto.findByIdAndDelete(id);
 
     res.json({
+        ok:true,
         msg:"Producto eliminado"
     });
 }

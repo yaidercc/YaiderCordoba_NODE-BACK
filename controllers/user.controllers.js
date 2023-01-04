@@ -99,8 +99,8 @@ const loginUser = async (req = request, res = response) => {
             msg: "correo y/o clave incorrectos.",
         });
     }
-    const id = usuario._id;
-    const token = await generateJWT(correo, usuario._id);
+
+    const token = await generateJWT(correo, usuario._id,usuario.nombre);
 
     res.json({
         ok: true,
@@ -108,7 +108,8 @@ const loginUser = async (req = request, res = response) => {
         token,
         usuario: {
             correo,
-            id: usuario._id
+            id: usuario._id,
+            nombre: usuario.nombre
         }
     });
 }
@@ -121,7 +122,8 @@ const loginUser = async (req = request, res = response) => {
 const validateToken = async (req, res) => {
     const {
         correo,
-        id_user
+        id_user,
+        nombre
     } = req;
 
     // Generara nuevo token
@@ -132,7 +134,8 @@ const validateToken = async (req, res) => {
         token,
         usuario: {
             correo,
-            id: id_user
+            id: id_user,
+            nombre
         }
     });
 };

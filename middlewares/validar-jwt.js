@@ -13,10 +13,11 @@ const validateJWT = (req, res = response, next) => {
 
   try {
 
-    const { correo, id_user } = jwt.verify(token, process.env.SECRET_JWT_SEED); // Obtiene los datos que contiene el token de JWT
+    const { correo, id_user,nombre } = jwt.verify(token, process.env.SECRET_JWT_SEED); // Obtiene los datos que contiene el token de JWT
 
     req.correo = correo;
     req.id_user = id_user;
+    req.nombre = nombre;
 
   } catch (error) {
 
