@@ -1,6 +1,7 @@
 const {
     Router
 } = require("express");
+
 const {
     getProducts,
     createProduct,

@@ -41,7 +41,7 @@ const getProduct = async (req = request, res = response) => {
     } = req.params;
 
     // Borrar registro fisicamente
-    const producto=await Producto.findById(id);
+    const producto = await Producto.findById(id);
 
     res.json({
         producto
@@ -58,7 +58,9 @@ const getProductsByUser = async (req = request, res = response) => {
     } = req.params;
 
     // Borrar registro fisicamente
-    const producto=await Producto.find({propietario:id});
+    const producto = await Producto.find({
+        propietario: id
+    });
 
     res.json({
         producto,
@@ -72,30 +74,38 @@ const getProductsByUser = async (req = request, res = response) => {
  * @param {*} res 
  */
 const createProduct = async (req = request, res = response) => {
+    try {
 
-    const {
-        nombre,
-        imagen,
-        precio,
-        propietario
-    } = req.body;
-
-    const producto = new Producto({
-        nombre,
-        imagen,
-        precio,
-        calificacion:'0',
-        propietario
-
-    });
-
-    // Guardar usuario
-    await producto.save();
-    res.json({
-        ok: true,
-        msg: "Producto agregado con exito.",
-        producto
-    });
+        const {
+            nombre,
+            imagen,
+            precio,
+            propietario
+        } = req.body;
+    
+        const producto = new Producto({
+            nombre,
+            imagen,
+            precio,
+            calificacion:'0',
+            propietario
+    
+        });
+    
+        // Guardar usuario
+        await producto.save();
+        res.json({
+            ok: true,
+            msg: "Producto agregado con exito.",
+            producto
+        });
+    } catch (error) {
+        res.json({
+            ok: false,
+            msg: "Hubo un error al agregar el producto.",
+            producto
+        });
+    }
 }
 
 /**
@@ -112,8 +122,8 @@ const deleteProduct = async (req = request, res = response) => {
     await Producto.findByIdAndDelete(id);
 
     res.json({
-        ok:true,
-        msg:"Producto eliminado"
+        ok: true,
+        msg: "Producto eliminado"
     });
 }
 

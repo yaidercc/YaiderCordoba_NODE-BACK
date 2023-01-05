@@ -24,8 +24,8 @@ const existsProductById = async (id) => {
  * Valida la extencion de una imagen
  * @param {*} name 
  */
-const validateImage = async (name='') => {
-    if (!/^[a-z0-9]+\.(jpeg|png|webp|jpg)$/.test(name)) throw new Error(`La extension de la imagen no esta permitido.`);
+const validateImage = async (image='') => {
+    if (!/^[a-z0-9]+\.(jpeg|png|webp|jpg)$/.test(image)) throw new Error(`La extension de la imagen no esta permitido.`);
 }
 
 
