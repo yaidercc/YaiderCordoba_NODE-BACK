@@ -30,7 +30,7 @@ const router = Router();
 
 router.get('/', getUsers);
 
-router.post('/', [
+router.post('/createUser', [
     check('nombre', 'El nombre no es valido').not().isEmpty(),
     check('password', 'El password debe de ser da mas de 6 caracteres').isLength({
         min: 6
