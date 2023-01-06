@@ -22,6 +22,8 @@ class Server {
 
         // Rutas de mi aplicacion
         this.routes();
+        // Directorio publico
+        this.app.use(express.static('public'));
     }
     async conectarDB() {
         await dbConnection();

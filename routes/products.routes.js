@@ -29,9 +29,6 @@ const {
 
 const router = Router();
 
-// Express validator para validar campos antes de enviarlos (middlewares)
-router.get('/', getProducts);
-
 router.get('/getProduct/:id', getProduct);
 
 router.put('/updateProduct/:id', [
