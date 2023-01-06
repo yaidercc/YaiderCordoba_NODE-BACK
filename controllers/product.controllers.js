@@ -151,6 +151,27 @@ const updateProduct = async (req = request, res = response) => {
     });
 }
 
+/**
+ * Funcion para actualizar la calificacion de un producto
+ * @param {*} req 
+ * @param {*} res 
+ */
+const updateCalificacion = async (req = request, res = response) => {
+    const id = req.params.id;
+
+    // Se saca el _id de los datos a actualizar para prevenir que este se actualice
+    const {
+        calificacion
+    } = req.body;
+
+    // Se actualiza el producto
+    const producto = await Producto.findByIdAndUpdate(id, {calificacion});
+    res.json({
+        ok: true,
+        msg: "Calificacion actualizada con exito.",
+    });
+}
+
 
 
 module.exports = {
@@ -159,5 +180,6 @@ module.exports = {
     deleteProduct,
     updateProduct,
     getProduct,
-    getProductsByUser
+    getProductsByUser,
+    updateCalificacion
 }

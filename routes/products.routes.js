@@ -8,7 +8,8 @@ const {
     deleteProduct,
     updateProduct,
     getProduct,
-    getProductsByUser
+    getProductsByUser,
+    updateCalificacion
 } = require("../controllers/product.controllers");
 const {
     check
@@ -42,6 +43,14 @@ router.put('/updateProduct/:id', [
     check('precio', 'El precio no es valido').not().isEmpty(),
     validarCampos
 ], updateProduct);
+
+router.put('/updateCalificacion/:id', [
+    check('id', 'No es un ID valido').isMongoId(),
+    check('id').custom(existsProductById),
+    check('calificacion', 'La calificaicon no es valida').not().isEmpty(),
+    validarCampos
+], updateCalificacion);
+
 
 router.post('/createProduct', [
     check('nombre', 'El nombre no es valido').not().isEmpty(),
