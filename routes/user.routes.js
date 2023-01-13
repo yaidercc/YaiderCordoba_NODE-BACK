@@ -16,7 +16,8 @@ const {
     loginUser,
     validateToken,
     sendEmailToUpdatePass,
-    resetPassword
+    resetPassword,
+    validateDataJwt
 } = require("../controllers/user.controllers");
 
 const {
@@ -58,9 +59,9 @@ router.post(
 );
 
 router.put(
-    "/resetPassword/:id_user",
+    "/resetPassword/:id",
     [
-        check("id_user", "El id es obligatorio").not().isEmpty(),
+        check("id", "El id es obligatorio").not().isEmpty(),
         check("clave", "La clave es oligatoria").not().isEmpty(),
         validarCampos,
     ],
