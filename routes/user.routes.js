@@ -14,7 +14,9 @@ const {
     getUsers,
     createUser,
     loginUser,
-    validateToken
+    validateToken,
+    sendEmailToUpdatePass,
+    resetPassword
 } = require("../controllers/user.controllers");
 
 const {
@@ -24,7 +26,10 @@ const {
 const {
     emailExists,
 } = require("../helpers/db-validator");
-const { validateJWT } = require("../middlewares/validar-jwt");
+
+const {
+    validateJWT
+} = require("../middlewares/validar-jwt");
 
 const router = Router();
 
@@ -46,8 +51,24 @@ router.post('/login', [
     validarCampos
 ], loginUser);
 
+router.post(
+    "/sendEmailToUpdatePass",
+    [check("correo", "El correo es oligatorio").not().isEmpty(), validarCampos],
+    sendEmailToUpdatePass
+);
 
+router.put(
+    "/resetPassword/:id_user",
+    [
+        check("id_user", "El id es obligatorio").not().isEmpty(),
+        check("clave", "La clave es oligatoria").not().isEmpty(),
+        validarCampos,
+    ],
+    resetPassword
+);
 
-router.get("/renew",validateJWT,validateToken)
+router.get("/validateToken", validateJWT, validateDataJwt);
+
+router.get("/renew", validateJWT, validateToken)
 
 module.exports = router;

@@ -2,7 +2,6 @@ const {
     Schema,
     model
 } = require("mongoose");
-const Usuario = model('Usuario');
 
 const ProductoSchema = Schema({
     nombre: {

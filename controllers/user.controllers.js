@@ -6,6 +6,7 @@ const bycryptjs = require("bcryptjs");
 
 const Usuario = require("../models/user.model");
 const generateJWT = require("../helpers/jwt");
+const sedMails = require('../helpers/sendMail');
 /**
  * Funcion para obtener los usuarios de la base de datos
  * @param {*} req 
@@ -44,7 +45,6 @@ const createUser = async (req = request, res = response) => {
         nombre,
         correo,
         password,
-        role
     } = req.body;
 
     // Se crea una instancia del registro que se va a agregar
@@ -52,7 +52,6 @@ const createUser = async (req = request, res = response) => {
         nombre,
         correo,
         password,
-        role
     });
 
     // Encriptar la contraseña 
@@ -100,7 +99,7 @@ const loginUser = async (req = request, res = response) => {
         });
     }
 
-    const token = await generateJWT(correo, usuario._id,usuario.nombre);
+    const token = await generateJWT(correo, usuario._id, usuario.nombre,"24h");
 
     res.json({
         ok: true,
@@ -140,10 +139,108 @@ const validateToken = async (req, res) => {
     });
 };
 
+/**
+ * Funcion encargada de enviar correo al usuario para cambiar la clave
+ * @param {*} id_user
+ * @returns
+ */
+const sendEmailToUpdatePass = async (req, res) => {
+    const {
+        correo
+    } = req.body;
+    const user = Usuario.findOne({
+        email: correo
+    })
+    if (user) {
+        const token = await generateJWT(correo, user.id,"", "1h");
+        sedMails(
+            "Contraseña Crud tienda",
+            "Este correo es para cambiar tu contraseña",
+            `<a href="http://localhost:3500/resetPassword/${token}">Reestablecer contraseña</a>`,
+            correo
+        ).catch((err) => {
+            return res.status(400).json({
+                ok: false,
+                msg: "Hubo un error al enviar el correo: " + err,
+            });
+        });
+
+        return res.json({
+            ok: true,
+            msg: "Correo enviado con exito."
+        });
+    }
+    return res.status(400).json({
+        ok: false,
+        msg: "El correo especificado no existe.",
+    });
+
+};
+
+/**
+ * Funcion encargada de resetear la clave de un usuario
+ * @param {*} id_user
+ * @returns
+ */
+const resetPassword = async (req, res) => {
+    const {
+        id_user
+    } = req.params;
+    const {
+        clave
+    } = req.body;
+
+    try {
+        const salt = bcryptjs.genSaltSync(); // Conjunto de datos aleatorios para encryptar la clave
+        encClave = bcryptjs.hashSync(clave, salt); // Codificacion o encriptacion de clave
+
+        const response = await mysqlRequest(
+            `UPDATE USUARIOS SET CLAVE = ? WHERE ID_USUARIO=?`,
+            [encClave, id_user]
+        );
+
+        return res.json({
+            ok: true,
+            msg: "Clave actualizada con exito con exito",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok: false,
+            msg: "Hubo un error al realizar la operacion: " + error,
+        });
+    }
+};
+/**
+ * Valida la vigencia y los datos de un token jwt
+ * @param {*} req
+ * @param {*} res
+ */
+const validateDataJwt = async (req, res) => {
+    const {
+        id_user,
+        correo
+    } = req;
+
+    if (!id_user || !correo) {
+        return res.status(400).json({
+            ok: false,
+            msg: "Token expirado.",
+        });
+    }
+    return res.json({
+        ok: true,
+        id_user,
+        correo,
+    });
+};
+
 
 module.exports = {
     getUsers,
     createUser,
     loginUser,
-    validateToken
+    validateToken,
+    sendEmailToUpdatePass,
+    resetPassword,
+    validateDataJwt
 }
